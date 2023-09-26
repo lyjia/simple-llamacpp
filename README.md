@@ -1,6 +1,6 @@
 # simple-llamacpp
 
-A simple frontend script for chatting with LLM's using llama.cpp
+A simple frontend script for interacting with LLaMa-and-derived LLM's using llama.cpp. I wrote this to automate some of the more tedious, manual steps I take for setting up a prompt and model without having to remember the mouthful of parameters needed to run llama.cpp ad hoc.
 
 ## Requirements
 
@@ -29,7 +29,27 @@ Depending on the version of llama.cpp you are using, your LLM models need to be 
 
 **simple-llamacpp** expects a configuration INI file, and assumes it resides at `~/.config/simple-llamacpp/config.ini`. An alternate location can be provided via command-line arguments.
 
-**YOU WILL NEED TO MANUALLY SET UP YOUR MODEL LIBRARY.** Use the examples provided in `config.ini` to point it towards your the models you have downloaded and formatted for GGML/GGUF. (See "Generating a default configuration file" to generate an empty config) 
+**YOU WILL NEED TO MANUALLY SET UP YOUR MODEL LIBRARY.** Use the examples provided in `config.ini` or in [Setting Up the Model Library](#setting-up-the-model-library) to point it towards the models you have downloaded and formatted for GGML/GGUF. (See "Generating a default configuration file" to generate an empty config)
+
+### Setting up the model library
+
+Models registered in the model library each have their own *section* (each line that begins with **\[** and ends with **\]** ) in the INI file, with their configuration data as `key = value` pairs below, one per line.
+
+An example model library entry, defining the *nous-13b-q41* model, is as follows:
+
+    [MODELS.nous-13b-q41]                                                   ; The name of the model as it will be given for -m, between the . and ]
+    path = Nous-Hermes-Llama2-13b/nous-hermes-llama2-13b.ggmlv3.q4_1.bin    ; Path to the model file, relative to modelpath in DEFAULTS
+    desc = Nous-Hermes 13b q4_1                                             ; A text description of the model to describe it in a list 
+    promptformat = alpaca                                                   ; The prompt format the model expects for using a system prompt. Currently there are two options: 'alpaca' and 'llama2'
+
+Define one of the above sections for each model you wish to make easily-accessible to this script. Once this is done, it should be visible when you run **simple-llamacpp** with the `-l` switch, like so:
+
+    pts/0 $> scripts/simple-llamacpp/llamacpp-chat2.py -l
+    Loading config from /home/tom/.config/simple-llamacpp/config.ini ...
+    --- Installed models: ---
+                 nous-13b-q41 -                                         Nous-Hermes 13b q4_1
+
+You can then use the model name shown in the first column as your value for `-m`, like what is [shown here](#running-with-a-simple-prompt)
 
 ## Command-line arguments
     
