@@ -26,7 +26,7 @@ def msg(str):
 #############
 # Constants #
 #############
-VERSION = "0.0"
+VERSION = "0.1"
 
 CFG_DEFAULT = "DEFAULTS"
 CFG_PROMPT_FORMATS = "PROMPT.FORMATS"
