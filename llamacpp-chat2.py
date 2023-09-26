@@ -15,6 +15,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from subprocess import run
+from sys import argv
 import os
 
 
@@ -238,6 +239,10 @@ with NamedTemporaryFile("w+b") as f:
 
     cmd_line = [os.path.expanduser(config[CFG_DEFAULT][CFG_DEF_LLAMABIN]), '-f', f.name]
 
+    # get model var
+    cmd_line.append("-m")
+    cmd_line.append(model_path)
+
     # get GQA var
     gqa = None
     if CFG_MOD_GQA in model_hash:
@@ -248,10 +253,13 @@ with NamedTemporaryFile("w+b") as f:
     if gqa:
         cmd_line.append("-gqa {}".format(gqa))
 
+    # get qtytokens var
     if args.qtytokens:
         cmd_line.append("-n")
-        cmd_line.append(args.qtytokens)
+        cmd_line.append(str(args.qtytokens))
 
     msg(cmd_line)
+    msg("========= {} is starting llama.cpp! =========".format(argv[0]))
     run(cmd_line)
+    msg("========= {} is cleaning up... =========".format(argv[0]))
 
