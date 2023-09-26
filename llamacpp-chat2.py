@@ -63,6 +63,15 @@ PROMPT_FORMATS = {
 config = ConfigParser()
 
 
+def load_config(args):
+    global config
+    config_file = DEFAULT_CONFIG_PATH
+    if args.config is None:
+        config_file = args.config
+    msg("Loading config from {} ...".format(config_file))
+    config.read(config_file)
+
+
 class GenerateDefaultConfigAction(Action):
     def __call__(self, parser, namespace, values, option_string=None):
         global config
@@ -110,10 +119,14 @@ class GenerateDefaultConfigAction(Action):
         exit(0)
 
 
-class PrintListOfModelsAction(Action):
-    def __call__(self, parser, namespace, value, option_string=None):
-        msg("Hello!")
-        exit(0)
+# we cant do this as an action
+def list_installed_models():
+    msg("--- Installed models: ---")
+    for key in config:
+        tokelen = len(CFG_MODELS) + 1
+        if key[0:tokelen] == "{}.".format(CFG_MODELS):
+            print("%25s - %60s" % (key[tokelen:], config[key][CFG_MOD_DESC]))
+    exit(0)
 
 
 ########################
@@ -153,8 +166,7 @@ parser.add_argument('--prompt-format',
 parser.add_argument("-l", "--listmodels",
                     help="Print a list of available models, then exit.",
                     default=DEFAULT_CONFIG_PATH,
-                    action=PrintListOfModelsAction,
-                    nargs=0)
+                    action='store_true')
 
 parser.add_argument("--generate-default-config",
                     help="Generate a default configuration file for this script and write it to the path provided, "
@@ -172,12 +184,10 @@ args = parser.parse_args()
 ##############
 
 # config file
-config_file = DEFAULT_CONFIG_PATH
-if args.config is None:
-    config_file = args.config
+load_config(args)
 
-msg("Loading config from {} ...".format(config_file))
-config.read(config_file)
+if args.listmodels:
+    list_installed_models()
 
 # model file
 model = args.model
@@ -233,9 +243,9 @@ else:
 with NamedTemporaryFile("w+b") as f:
     if sysprompt is not None:
         prompt_formatted = PROMPT_FORMATS[model_hash[CFG_MOD_FMT]].format(MAINPROMPT=prompt, SYSTEMPROMPT=sysprompt)
-        f.write( str.encode(prompt_formatted) )
+        f.write(str.encode(prompt_formatted))
     else:
-        f.write( str.encode(prompt) )
+        f.write(str.encode(prompt))
     f.flush()
 
     cmd_line = [os.path.expanduser(config[CFG_DEFAULT][CFG_DEF_LLAMABIN]), '-f', f.name]
@@ -263,4 +273,3 @@ with NamedTemporaryFile("w+b") as f:
     msg("========= {} is starting llama.cpp! =========".format(argv[0]))
     run(cmd_line)
     msg("========= {} is cleaning up... =========".format(argv[0]))
-
