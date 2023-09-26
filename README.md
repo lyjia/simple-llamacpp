@@ -1,6 +1,6 @@
 # simple-llamacpp
 
-A simple frontend script for interacting with LLaMa-and-derived LLM's using llama.cpp. I wrote this to automate some of the more tedious, manual steps I take for setting up a prompt and model without having to remember the mouthful of parameters needed to run llama.cpp ad hoc.
+A simple (hah!) frontend script for interacting with LLaMa-and-derived LLM's using llama.cpp. I wrote this to automate some of the more tedious, manual steps I take for setting up a prompt and model without having to remember the mouthful of parameters needed to run llama.cpp ad hoc.
 
 ## Requirements
 
