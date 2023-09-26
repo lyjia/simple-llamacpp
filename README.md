@@ -52,7 +52,7 @@ Depending on the version of llama.cpp you are using, your LLM models need to be 
     -l, --listmodels      Print a list of available models, then exit.
     --generate-default-config [CONFIG]
                           Generate a default configuration file for this script and write it to the path provided, then exit. If no path is given, a
-                          new config file will be written to /home/tom/.config/simple-llamacpp/config.ini
+                          new config file will be written to ~/.config/simple-llamacpp/config.ini
 
 ## Execution
 
