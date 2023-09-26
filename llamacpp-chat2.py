@@ -186,7 +186,7 @@ args = parser.parse_args()
 # config file
 load_config(args)
 
-if args.listmodels:
+if args.listmodels is True:
     list_installed_models()
 
 # model file
