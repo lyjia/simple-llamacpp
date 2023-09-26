@@ -31,6 +31,29 @@ Depending on the version of llama.cpp you are using, your LLM models need to be 
 
 **YOU WILL NEED TO MANUALLY SET UP YOUR MODEL LIBRARY.** Use the examples provided in `config.ini` to point it towards your the models you have downloaded and formatted for GGML/GGUF. (See "Generating a default configuration file" to generate an empty config) 
 
+## Command-line arguments
+    
+    -h, --help            show this help message and exit
+    -m MODEL, --model MODEL
+                          Model name from the model library, or path to model file
+    -p PROMPT, --prompt PROMPT
+                          The desired starting prompt text or a path to a text file containing your prompt
+    -s SYSPROMPT, --sysprompt SYSPROMPT
+                          The desired system prompt text or path to a text file containing your system prompt.
+    -n QTYTOKENS, --qtytokens QTYTOKENS
+                          The desired quantity of output tokens.
+    -b LLAMABIN, --llamabin LLAMABIN
+                          The path to the llama.cpp binary
+    -c CONFIG, --config CONFIG
+                          Read config INI from specified path
+    --gqa GQA             Specify value for GQA
+    --prompt-format PROMPT_FORMAT
+                          Specify prompt format (must refer to one of the formats listed in config.ini)
+    -l, --listmodels      Print a list of available models, then exit.
+    --generate-default-config [CONFIG]
+                          Generate a default configuration file for this script and write it to the path provided, then exit. If no path is given, a
+                          new config file will be written to /home/tom/.config/simple-llamacpp/config.ini
+
 ## Execution
 
 For all command strings listed here, run this script directly on a command-prompt. For example:
