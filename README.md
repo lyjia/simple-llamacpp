@@ -109,3 +109,9 @@ This version of simple-llamacpp is extremely raw and written in a few hours in o
 * Hide-by-default all the verbose text that llama.cpp spits out, the output of a one-shot should be nothing more than the actual LLM output
 
 * Interactive curses, webserver, and/or GUI frontend 
+
+* Add a test suite
+
+### Testing:
+
+This script should work on anything that can run python and llama.cpp. I am personally running this on a FreeBSD 13 server, but I don't see any reason for why it wouldn't work on Linux, Mac, or Windows machines.
