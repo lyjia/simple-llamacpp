@@ -29,6 +29,8 @@ Depending on the version of llama.cpp you are using, your LLM models need to be 
 
 **simple-llamacpp** expects a configuration INI file, and assumes it resides at `~/.config/simple-llamacpp/config.ini`. An alternate location can be provided via command-line arguments.
 
+**YOU WILL NEED TO MANUALLY SET UP YOUR MODEL LIBRARY.** Use the examples provided in `config.ini` to point it towards your the models you have downloaded and formatted for GGML/GGUF. (See "Generating a default configuration file" to generate an empty config) 
+
 ## Execution
 
 For all command strings listed here, run this script directly on a command-prompt. For example:
@@ -38,6 +40,12 @@ For all command strings listed here, run this script directly on a command-promp
     ./llamacpp-chat2.py -h
 
 The above command will output the script's help message. Please refer to it for a listing of how to invoke the script and its options.
+
+### Generating a default configuration file
+
+    ./llamacpp-chat2.py --generate-default-config
+
+The above command will generate a default config.ini and place it in `~/.config/simple-llamacpp/config.ini`.
 
 ### Running with a simple prompt
 
