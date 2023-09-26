@@ -250,6 +250,8 @@ with NamedTemporaryFile("w+b") as f:
 
     cmd_line = [os.path.expanduser(config[CFG_DEFAULT][CFG_DEF_LLAMABIN]), '-f', f.name]
 
+    # note that we need to pass command line args and the parameters as separate list entries
+
     # get model var
     cmd_line.append("-m")
     cmd_line.append(model_path)
@@ -262,7 +264,8 @@ with NamedTemporaryFile("w+b") as f:
         gqa = args.gqa
 
     if gqa:
-        cmd_line.append("-gqa {}".format(gqa))
+        cmd_line.append("-gqa")
+        cmd_line.append(gqa)
 
     # get qtytokens var
     if args.qtytokens:
