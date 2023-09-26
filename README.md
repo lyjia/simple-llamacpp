@@ -6,7 +6,7 @@ A simple frontend script for chatting with LLM's using llama.cpp
 
 * Python 3.10 or greater
 * llama.cpp (https://github.com/ggerganov/llama.cpp), compiled and operational
-* At least one LLaMA-derived (or other llama.cpp) LLM checkpoint
+* At least one LLaMA-derived (or other llama.cpp-compatible) LLM checkpoint
 
 ## Installation
 

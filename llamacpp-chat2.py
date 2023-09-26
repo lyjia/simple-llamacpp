@@ -213,11 +213,11 @@ else:
 
 # system prompt
 if args.sysprompt:
-    if os.exists(args.sysprompt):
+    if os.path.exists(args.sysprompt):
         sysprompt_file = args.sysprompt
         with open(sysprompt_file, 'r') as f:
             sysprompt = f.read()
-        msg("Loaded system prompt from {}...".format(prompt_file))
+        msg("Loaded system prompt from {}...".format(sysprompt_file))
     else:
         sysprompt = args.sysprompt
     msg("Using system prompt of length {}.".format(len(sysprompt)))
@@ -232,10 +232,11 @@ else:
 # save the prompt to a temporary file to avoid issues with the shell misinterpreting special characters in the prompt string
 with NamedTemporaryFile("w+b") as f:
     if sysprompt is not None:
-        prompt_formatted = model_hash[CFG_MOD_FMT].format(MAINPROMPT=prompt, SYSPROMPT=sysprompt)
-        f.write(prompt_formatted)
+        prompt_formatted = PROMPT_FORMATS[model_hash[CFG_MOD_FMT]].format(MAINPROMPT=prompt, SYSTEMPROMPT=sysprompt)
+        f.write( str.encode(prompt_formatted) )
     else:
         f.write( str.encode(prompt) )
+    f.flush()
 
     cmd_line = [os.path.expanduser(config[CFG_DEFAULT][CFG_DEF_LLAMABIN]), '-f', f.name]
 
