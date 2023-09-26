@@ -60,31 +60,37 @@ For all command strings listed here, run this script directly on a command-promp
 
 ### Accessing Help
 
-    ./llamacpp-chat2.py -h
+    $> ./llamacpp-chat2.py -h
 
 The above command will output the script's help message. Please refer to it for a listing of how to invoke the script and its options.
 
+### Listing all names of models installed in config.ini
+
+    $> ./llamacpp-chat2.py -l
+
+The above command will output a list of all LLM models listed in `config.ini`. You can paste a name shown in the first column into the value for the `--model` argument. 
+
 ### Generating a default configuration file
 
-    ./llamacpp-chat2.py --generate-default-config
+    $> ./llamacpp-chat2.py --generate-default-config
 
 The above command will generate a default config.ini and place it in `~/.config/simple-llamacpp/config.ini`.
 
 ### Running with a simple prompt
 
-    ./llamacpp-chat2.py -m nous-13b-q41 -p "Write me a poem about cows"
+    $> ./llamacpp-chat2.py -m nous-13b-q41 -p "Write me a poem about cows"
 
 The above command will run llama.cpp with on the 'nous-13g-q41' model with the prompt, "Write me a poem about cows"
 
 ### Running with a simple prompt using a system prompt
 
-    ./llamacpp-chat2.py -m nous-13b-q41 -p "Write me a poem about cows" -s prompts.system/assistant.txt
+    $> ./llamacpp-chat2.py -m nous-13b-q41 -p "Write me a poem about cows" -s prompts.system/assistant.txt
 
 The above command will run llama.cpp with on the 'nous-13g-q41' model with the prompt, "Write me a poem about cows", and will use the system prompt given in the file `prompts.system/assistant.txt`
 
 ### Running with both prompt and system prompts in a text file
 
-     ./llamacpp-chat2.py -m nous-13b-q41 -p ~/my_longer_prompt.txt -s prompts.system/assistant.txt 
+    $> ./llamacpp-chat2.py -m nous-13b-q41 -p ~/my_longer_prompt.txt -s prompts.system/assistant.txt 
 
 The above command will run llama.cpp with on the 'nous-13g-q41' model with the prompt found in a file called `my_longer_prompt.txt` and will use the system prompt given in the file `prompts.system/assistant.txt`
 
