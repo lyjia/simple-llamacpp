@@ -56,3 +56,9 @@ The above command will run llama.cpp with on the 'nous-13g-q41' model with the p
      ./llamacpp-chat2.py -m nous-13b-q41 -p ~/my_longer_prompt.txt -s prompts.system/assistant.txt 
 
 The above command will run llama.cpp with on the 'nous-13g-q41' model with the prompt found in a file called `my_longer_prompt.txt` and will use the system prompt given in the file `prompts.system/assistant.txt`
+
+### Screenshot
+
+Here's a picture of **simple-llamacpp2** in action:
+
+![A screenshot showing this code in action](https://github.com/lyjia/simple-llamacpp/blob/master/doc/screenshot.png?raw=true "A screenshot")
