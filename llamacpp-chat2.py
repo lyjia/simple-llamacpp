@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 ###############################################################################
-# Simple script for interactins with llama.cpp
+# Simple frontend script for interacting with llama.cpp
 # Requires python 3.10 or greater, no dependencies
 # (C) 2023 Lyjia - September 2023
 # https://github.com/lyjia/simple-llamacpp
@@ -13,6 +13,8 @@ import curses
 from argparse import ArgumentParser, Action
 from configparser import ConfigParser
 from pathlib import Path
+from tempfile import NamedTemporaryFile
+from subprocess import run
 import os
 
 
@@ -38,17 +40,20 @@ CFG_MOD_DESC = "desc"
 CFG_MOD_FMT = 'promptformat'
 CFG_MOD_GQA = "gqa"
 
+PRMT_FMT_ALPACA = 'alpaca'
+PRMT_FMT_LLAMA2 = 'llama2'
+
 DEFAULT_CONFIG_PATH = os.path.expanduser("~/.config/simple-llamacpp/config.ini")
 
 DEFAULTS = {
     CFG_DEF_LLAMABIN:  '~/src/llama.cpp/main',
     CFG_DEF_QTYTOKES:  256,
-    CFG_DEF_MODELPATH: '~/data/ml/LLM'
+    CFG_DEF_MODELPATH: '~/data/ml/LLM/LLaMA2'
 }
 
 PROMPT_FORMATS = {
-    'alpaca': '### Instruction:\n{MAINPROMPT}\n\n### Input: {SYSTEMPROMPT}\n\n### Reponse:\n',
-    'llama2': '[INST]<<SYS>>{SYSTEMPROMPT}<</SYS>>{MAINPROMPT}[/INST]'
+    PRMT_FMT_ALPACA: '### Instruction:\n{MAINPROMPT}\n\n### Input: {SYSTEMPROMPT}\n\n### Reponse:\n',
+    PRMT_FMT_LLAMA2: '[INST]<<SYS>>{SYSTEMPROMPT}<</SYS>>{MAINPROMPT}[/INST]'
 }
 
 #################
@@ -117,7 +122,8 @@ class PrintListOfModelsAction(Action):
 # Parameters #
 
 parser = ArgumentParser(description='A simple script for interacting with llama.cpp',
-                        epilog="(C) 2023 Lyjia. Version {}. This script is licensed to you under the terms of the GPLv3. Updates may be found at: https://github.com/lyjia/simple-llamacpp".format(
+                        epilog="(C) 2023 Lyjia. Version {}. This script is licensed to you under the terms of the "
+                               "GPLv3. Updates may be found at: https://github.com/lyjia/simple-llamacpp".format(
                             VERSION))
 
 parser.add_argument("-m", "--model",
@@ -127,7 +133,7 @@ parser.add_argument("-p", "--prompt",
 parser.add_argument("-s", "--sysprompt",
                     help="The desired system prompt text or path to a text file containing your system prompt.")
 parser.add_argument("-n", "--qtytokens",
-                    help="The disired quantity of output tokens.",
+                    help="The desired quantity of output tokens.",
                     default=DEFAULTS[CFG_DEF_QTYTOKES],
                     type=int)
 parser.add_argument("-b", "--llamabin",
@@ -136,6 +142,10 @@ parser.add_argument("-b", "--llamabin",
 parser.add_argument("-c", "--config",
                     help="Read config INI from specified path",
                     default=DEFAULT_CONFIG_PATH)
+parser.add_argument('--gqa',
+                    help="Specify value for GQA")
+parser.add_argument('--prompt-format',
+                    help="Specify prompt format (must refer to one of the formats listed in config.ini)")
 
 # Actions #
 
@@ -165,7 +175,7 @@ config_file = DEFAULT_CONFIG_PATH
 if args.config is None:
     config_file = args.config
 
-msg("Loading config from {}".format(config_file))
+msg("Loading config from {} ...".format(config_file))
 config.read(config_file)
 
 # model file
@@ -173,11 +183,11 @@ model = args.model
 modelhive = "{}.{}".format(CFG_MODELS, model)
 if modelhive in config:
     model_hash = config[modelhive]
-    model_path = os.path.join(config[CFG_DEF_MODELPATH], model_hash[CFG_MOD_PATH])
-    if os.exist(model_path):
+    model_path = os.path.join(os.path.expanduser(config[CFG_DEFAULT][CFG_DEF_MODELPATH]), model_hash[CFG_MOD_PATH])
+    if os.path.exists(model_path):
         msg("Using model at {}".format(model_path))
     else:
-        msg("ERROR: Model file at {} does not exist!".format(model_hash[CFG_MOD_PATH]))
+        msg("ERROR: Model file at {} does not exist!".format(model_path))
         exit(-2)
 else:
     if args.model is None:
@@ -188,7 +198,7 @@ else:
 
 # prompt
 if args.prompt:
-    if os.exists(args.prompt):
+    if os.path.exists(args.prompt):
         prompt_file = args.prompt
         with open(prompt_file, 'r') as f:
             prompt = f.read()
@@ -197,7 +207,7 @@ if args.prompt:
         prompt = args.prompt
     msg("Using prompt of length {}.".format(len(prompt)))
 else:
-    msg("ERROR: you must specify a prompt for prompt file!")
+    msg("ERROR: you must specify a prompt or prompt file!")
     exit(-1)
 
 # system prompt
@@ -211,4 +221,37 @@ if args.sysprompt:
         sysprompt = args.sysprompt
     msg("Using system prompt of length {}.".format(len(sysprompt)))
 else:
+    sysprompt = None
     msg("No system prompt specified.")
+
+#######
+# Go! #
+#######
+
+# save the prompt to a temporary file to avoid issues with the shell misinterpreting special characters in the prompt string
+with NamedTemporaryFile("w+b") as f:
+    if sysprompt is not None:
+        prompt_formatted = model_hash[CFG_MOD_FMT].format(MAINPROMPT=prompt, SYSPROMPT=sysprompt)
+        f.write(prompt_formatted)
+    else:
+        f.write( str.encode(prompt) )
+
+    cmd_line = [os.path.expanduser(config[CFG_DEFAULT][CFG_DEF_LLAMABIN]), '-f', f.name]
+
+    # get GQA var
+    gqa = None
+    if CFG_MOD_GQA in model_hash:
+        gqa = model_hash[CFG_MOD_GQA]
+    if args.gqa:
+        gqa = args.gqa
+
+    if gqa:
+        cmd_line.append("-gqa {}".format(gqa))
+
+    if args.qtytokens:
+        cmd_line.append("-n")
+        cmd_line.append(args.qtytokens)
+
+    msg(cmd_line)
+    run(cmd_line)
+
