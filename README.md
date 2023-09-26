@@ -62,3 +62,13 @@ The above command will run llama.cpp with on the 'nous-13g-q41' model with the p
 Here's a picture of **simple-llamacpp2** in action:
 
 ![A screenshot showing this code in action](https://github.com/lyjia/simple-llamacpp/blob/master/doc/screenshot.png?raw=true "A screenshot")
+
+### TODOs:
+
+This version of simple-llamacpp is extremely raw and written in a few hours in one day.
+
+* Make it easier to specify running llama.cpp in "interactive" vs. "oneshot" mode. The script has 'chat' in the name but right now it will quit as soon as llama.cpp gives its response. This is a bit more complicated than simply supplying "-i" to llama.cpp
+
+* Hide-by-default all the verbose text that llama.cpp spits out, the output of a one-shot should be nothing more than the actual LLM output
+
+* Interactive curses, webserver, and/or GUI frontend 
