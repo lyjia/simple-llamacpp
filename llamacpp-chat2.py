@@ -26,7 +26,7 @@ def msg(str):
 #############
 # Constants #
 #############
-VERSION = "0.1"
+VERSION = "0.1.2"
 
 CFG_DEFAULT = "DEFAULTS"
 CFG_PROMPT_FORMATS = "PROMPT.FORMATS"
@@ -43,6 +43,7 @@ CFG_MOD_GQA = "gqa"
 
 PRMT_FMT_ALPACA = 'alpaca'
 PRMT_FMT_LLAMA2 = 'llama2'
+PRMT_FMT_CHATML = 'chatml'
 
 DEFAULT_CONFIG_PATH = os.path.expanduser("~/.config/simple-llamacpp/config.ini")
 
@@ -54,7 +55,12 @@ DEFAULTS = {
 
 PROMPT_FORMATS = {
     PRMT_FMT_ALPACA: '### Instruction:\n{MAINPROMPT}\n\n### Input: {SYSTEMPROMPT}\n\n### Reponse:\n',
-    PRMT_FMT_LLAMA2: '[INST]<<SYS>>{SYSTEMPROMPT}<</SYS>>{MAINPROMPT}[/INST]'
+    PRMT_FMT_LLAMA2: '[INST]<<SYS>>{SYSTEMPROMPT}<</SYS>>{MAINPROMPT}[/INST]',
+    PRMT_FMT_CHATML: '<|im_start|>system'
+                     'You are a caring and empathetic sentient AI companion named Samantha.<|im_end|>'
+                     '<|im_start|>user'
+                     'Hello, what is your name?<|im_end|>'
+
 }
 
 #################
