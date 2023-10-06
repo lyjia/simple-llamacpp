@@ -26,7 +26,7 @@ def msg(str):
 #############
 # Constants #
 #############
-VERSION = "0.1.2"
+VERSION = "0.2"
 
 CFG_DEFAULT = "DEFAULTS"
 CFG_PROMPT_FORMATS = "PROMPT.FORMATS"
@@ -64,7 +64,6 @@ PROMPT_FORMATS = {
     PRMT_FMT_ALPACA: '### Instruction:\n{MAINPROMPT}\n\n### Input: {SYSTEMPROMPT}\n\n### Reponse:\n',
     PRMT_FMT_LLAMA2: '[INST]<<SYS>>{SYSTEMPROMPT}<</SYS>>{MAINPROMPT}[/INST]',
     PRMT_FMT_CHATML: '<|im_start|>system\n{SYSTEMPROMPT}<|im_end|>\n<|im_start|>user\n{MAINPROMPT}<|im_end|>'
-
 }
 
 #################
