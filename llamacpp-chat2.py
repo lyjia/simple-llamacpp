@@ -37,6 +37,13 @@ CFG_DEF_LLAMABIN = "llamabin"
 CFG_DEF_MODELPATH = "modelpath"
 
 CFG_MOD_PATH = "path"
+CFG_MOD_PATH_F16 = "f16"
+CFG_MOD_PATH_Q4_0 = "q4_0"
+CFG_MOD_PATH_Q4_1 = "q4_1"
+CFG_MOD_PATH_Q5_0 = "q5_0"
+CFG_MOD_PATH_Q5_1 = "q5_1"
+CFG_MOD_PATH_Q8_0 = "q8_0"
+
 CFG_MOD_DESC = "desc"
 CFG_MOD_FMT = 'promptformat'
 CFG_MOD_GQA = "gqa"
@@ -50,16 +57,13 @@ DEFAULT_CONFIG_PATH = os.path.expanduser("~/.config/simple-llamacpp/config.ini")
 DEFAULTS = {
     CFG_DEF_LLAMABIN:  '~/src/llama.cpp/main',
     CFG_DEF_QTYTOKES:  256,
-    CFG_DEF_MODELPATH: '~/data/ml/LLM/LLaMA2'
+    CFG_DEF_MODELPATH: '~/data/ml/LLM'
 }
 
 PROMPT_FORMATS = {
     PRMT_FMT_ALPACA: '### Instruction:\n{MAINPROMPT}\n\n### Input: {SYSTEMPROMPT}\n\n### Reponse:\n',
     PRMT_FMT_LLAMA2: '[INST]<<SYS>>{SYSTEMPROMPT}<</SYS>>{MAINPROMPT}[/INST]',
-    PRMT_FMT_CHATML: '<|im_start|>system'
-                     'You are a caring and empathetic sentient AI companion named Samantha.<|im_end|>'
-                     '<|im_start|>user'
-                     'Hello, what is your name?<|im_end|>'
+    PRMT_FMT_CHATML: '<|im_start|>system\n{SYSTEMPROMPT}<|im_end|>\n<|im_start|>user\n{MAINPROMPT}<|im_end|>'
 
 }
 
@@ -86,21 +90,32 @@ class GenerateDefaultConfigAction(Action):
 
         # some examples for specifying models
         models = {
-            'llama2-13b-chat-q8':  {
-                CFG_MOD_PATH: 'llama-2-13b-chat/llama-2-13b-chat.ggmlv3.q8_0.bin',
-                CFG_MOD_DESC: 'LlaMA2 13b-chat, q8_0',
+            'llama2-13b-chat':  {
+                CFG_MOD_PATH_Q4_1: 'Llama2/llama-2-13b-chat/llama2-13b-chat-q4_1.gguf',
+                CFG_MOD_PATH_Q5_1: 'Llama2/llama-2-13b-chat/llama2-13b-chat-q5_1.gguf',
+                CFG_MOD_PATH_Q8_0: 'Llama2/llama-2-13b-chat/llama2-13b-chat-q8_0.gguf',
+                CFG_MOD_DESC: 'LlaMA2 13b-chat',
                 CFG_MOD_FMT:  'llama2'
             },
-            'llama2-70b-chat-q41': {
-                CFG_MOD_PATH: 'llama-2-70b-chat/llama-2-70b-chat.ggmlv3.q4_1.bin',
-                CFG_MOD_DESC: 'LlaMa2 70b-chat, q4_1 (gqa=8)',
+            'llama2-70b-chat': {
+                CFG_MOD_PATH_Q4_1: 'Llama2/llama-2-70b-chat/llama2-70b-chat-q4_1.gguf',
+                CFG_MOD_PATH_Q5_1: 'Llama2/llama-2-70b-chat/llama2-70b-chat-q5_1.gguf',
+                CFG_MOD_PATH_Q8_0: 'Llama2/llama-2-70b-chat/llama2-70b-chat-q8_0.gguf',
+                CFG_MOD_DESC: 'LlaMa2 70b-chat',
                 CFG_MOD_FMT:  'llama2',
-                CFG_MOD_GQA:  '8'
             },
-            'nous-13b-q41':        {
-                CFG_MOD_PATH: 'Nous-Hermes-Llama2-13b/nous-hermes-llama2-13b.ggmlv3.q4_1.bin',
-                CFG_MOD_DESC: 'Nous-Hermes 13b q4_1',
+            'nous-13b':        {
+                CFG_MOD_PATH_Q4_1: 'Llama2/Nous-Hermes-Llama2-13b/nous-hermes-llama2-13b.q4_1.gguf',
+                CFG_MOD_PATH_Q8_0: 'Llama2/Nous-Hermes-Llama2-13b/nous-hermes-llama2-13b.q8_0.gguf',
+                CFG_MOD_DESC: 'Nous-Hermes 13b',
                 CFG_MOD_FMT:  'alpaca'
+            }
+            'mistral-7b':        {
+                CFG_MOD_PATH_Q4_1: 'Llama2/mistral-7B-v0.1/Llama2\mistral-7B-v0.1-q4_1.gguf',
+                CFG_MOD_PATH_Q5_1: 'Llama2/mistral-7B-v0.1/Llama2\mistral-7B-v0.1-q5_1.gguf',
+                CFG_MOD_PATH_Q8_0: 'Llama2/mistral-7B-v0.1/Llama2\mistral-7B-v0.1-q8_0.gguf',
+                CFG_MOD_DESC: 'Mistral AI 13b',
+                CFG_MOD_FMT:  'chatml'
             }
         }
 
