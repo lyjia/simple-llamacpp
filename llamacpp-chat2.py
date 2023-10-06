@@ -43,6 +43,7 @@ CFG_MOD_PATH_Q4_1 = "q4_1"
 CFG_MOD_PATH_Q5_0 = "q5_0"
 CFG_MOD_PATH_Q5_1 = "q5_1"
 CFG_MOD_PATH_Q8_0 = "q8_0"
+CFG_MOD_DEFAULT_Q = "defaultq"
 
 CFG_MOD_DESC = "desc"
 CFG_MOD_FMT = 'promptformat'
@@ -89,32 +90,36 @@ class GenerateDefaultConfigAction(Action):
 
         # some examples for specifying models
         models = {
-            'llama2-13b-chat':  {
+            'llama2-13b-chat': {
                 CFG_MOD_PATH_Q4_1: 'Llama2/llama-2-13b-chat/llama2-13b-chat-q4_1.gguf',
                 CFG_MOD_PATH_Q5_1: 'Llama2/llama-2-13b-chat/llama2-13b-chat-q5_1.gguf',
                 CFG_MOD_PATH_Q8_0: 'Llama2/llama-2-13b-chat/llama2-13b-chat-q8_0.gguf',
-                CFG_MOD_DESC: 'LlaMA2 13b-chat',
-                CFG_MOD_FMT:  'llama2'
+                CFG_MOD_DESC:      'LlaMA2 13b-chat',
+                CFG_MOD_FMT:       'llama2',
+                CFG_MOD_DEFAULT_Q: 'q8_0'
             },
             'llama2-70b-chat': {
                 CFG_MOD_PATH_Q4_1: 'Llama2/llama-2-70b-chat/llama2-70b-chat-q4_1.gguf',
                 CFG_MOD_PATH_Q5_1: 'Llama2/llama-2-70b-chat/llama2-70b-chat-q5_1.gguf',
                 CFG_MOD_PATH_Q8_0: 'Llama2/llama-2-70b-chat/llama2-70b-chat-q8_0.gguf',
-                CFG_MOD_DESC: 'LlaMa2 70b-chat',
-                CFG_MOD_FMT:  'llama2',
+                CFG_MOD_DESC:      'LlaMa2 70b-chat',
+                CFG_MOD_FMT:       'llama2',
+                CFG_MOD_DEFAULT_Q: 'q4_1'
             },
             'nous-13b':        {
                 CFG_MOD_PATH_Q4_1: 'Llama2/Nous-Hermes-Llama2-13b/nous-hermes-llama2-13b.q4_1.gguf',
                 CFG_MOD_PATH_Q8_0: 'Llama2/Nous-Hermes-Llama2-13b/nous-hermes-llama2-13b.q8_0.gguf',
-                CFG_MOD_DESC: 'Nous-Hermes 13b',
-                CFG_MOD_FMT:  'alpaca'
-            }
-            'mistral-7b':        {
+                CFG_MOD_DESC:      'Nous-Hermes 13b',
+                CFG_MOD_FMT:       'alpaca',
+                CFG_MOD_DEFAULT_Q: 'q8_0'
+            },
+            'mistral-7b':      {
                 CFG_MOD_PATH_Q4_1: 'Llama2/mistral-7B-v0.1/Llama2\mistral-7B-v0.1-q4_1.gguf',
                 CFG_MOD_PATH_Q5_1: 'Llama2/mistral-7B-v0.1/Llama2\mistral-7B-v0.1-q5_1.gguf',
                 CFG_MOD_PATH_Q8_0: 'Llama2/mistral-7B-v0.1/Llama2\mistral-7B-v0.1-q8_0.gguf',
-                CFG_MOD_DESC: 'Mistral AI 13b',
-                CFG_MOD_FMT:  'chatml'
+                CFG_MOD_DESC:      'Mistral AI 13b',
+                CFG_MOD_FMT:       'chatml',
+                CFG_MOD_DEFAULT_Q: 'q8_0'
             }
         }
 
