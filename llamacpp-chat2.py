@@ -44,6 +44,8 @@ CFG_MOD_PATH_Q5_0 = "q5_0"
 CFG_MOD_PATH_Q5_1 = "q5_1"
 CFG_MOD_PATH_Q8_0 = "q8_0"
 CFG_MOD_DEFAULT_Q = "defaultq"
+CFG_MOD_CONTEXT_LEN = "context"
+
 
 CFG_MOD_DESC = "desc"
 CFG_MOD_FMT = 'promptformat'
@@ -96,7 +98,9 @@ class GenerateDefaultConfigAction(Action):
                 CFG_MOD_PATH_Q8_0: 'Llama2/llama-2-13b-chat/llama2-13b-chat-q8_0.gguf',
                 CFG_MOD_DESC:      'LlaMA2 13b-chat',
                 CFG_MOD_FMT:       'llama2',
-                CFG_MOD_DEFAULT_Q: 'q8_0'
+                CFG_MOD_DEFAULT_Q: 'q8_0',
+                CFG_MOD_CONTEXT_LEN: '1500',
+
             },
             'llama2-70b-chat': {
                 CFG_MOD_PATH_Q4_1: 'Llama2/llama-2-70b-chat/llama2-70b-chat-q4_1.gguf',
